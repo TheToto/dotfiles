@@ -1,1 +1,15 @@
-/etc/udev/rules.d/98-thetoto.rules
+ACTION=="change", SUBSYSTEM=="rfkill", ENV{RFKILL_TYPE}=="wlan", ENV{RFKILL_STATE}=="1", \
+IMPORT{program}="/usr/bin/xpub", \
+RUN+="/bin/su $env{XUSER} -s /bin/sh -c 'dunstify -r 9901 -i network-wireless-connected -u low \"Wifi Activé\"'"
+
+ACTION=="change", SUBSYSTEM=="rfkill", ENV{RFKILL_TYPE}=="wlan", ENV{RFKILL_STATE}=="0", \
+IMPORT{program}="/usr/bin/xpub", \
+RUN+="/bin/su $env{XUSER} -s /bin/sh -c 'dunstify -r 9901 -i network-wireless-offline -u low \"Wifi Désctivé\"'"
+
+ACTION=="change", SUBSYSTEM=="rfkill", ENV{RFKILL_TYPE}=="bluetooth", ENV{RFKILL_STATE}=="1", \
+IMPORT{program}="/usr/bin/xpub", \
+RUN+="/bin/su $env{XUSER} -s /bin/sh -c 'dunstify -r 9902 -i bluetooth-active -u low \"Bluetooth Activé\"'"
+
+ACTION=="change", SUBSYSTEM=="rfkill", ENV{RFKILL_TYPE}=="bluetooth", ENV{RFKILL_STATE}=="0", \
+IMPORT{program}="/usr/bin/xpub", \
+RUN+="/bin/su $env{XUSER} -s /bin/sh -c 'dunstify -r 9902 -i bluetooth-disabled -u low \"Bluetooth Désctivé\"'"

@@ -1,1 +1,10 @@
-/etc/pam.d/fprint-auth
+#%PAM-1.0
+
+auth optional pam_exec.so quiet seteuid /bin/sh /home/toto/script/pam/before_fprint.sh
+
+auth [success=ok default=2] pam_fprintd.so max-tries=1 timeout=10
+
+auth optional pam_exec.so quiet seteuid /bin/sh /home/toto/script/pam/after_fprint.sh
+auth sufficient  pam_permit.so
+
+auth optional pam_exec.so quiet seteuid /bin/sh /home/toto/script/pam/after_fprint.sh
