@@ -1,0 +1,12 @@
+#
+# This file is parsed by pam_env module
+#
+# Syntax: simple "KEY=VAL" pairs on separate lines
+#
+QT_QPA_PLATFORMTHEME="qt5ct"
+PATH="/home/toto/script/rofi:/home/toto/script/bin:$PATH"
+SUDO_ASKPASS="/home/toto/script/bin/askpass-rofi"
+EDITOR="vim"
+PAGER="less"
+LANG="fr_FR.UTF-8"
+LC_ALL="fr_FR.UTF-8"
