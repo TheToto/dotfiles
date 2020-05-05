@@ -166,12 +166,12 @@ bindsym $mod+Shift+r restart
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"
 
 # MEDIA KEYS
-bindsym XF86MonBrightnessDown exec light -U 5 && pkill -RTMIN+11 i3blocks
-bindsym XF86MonBrightnessUp exec light -A 5 && pkill -RTMIN+11 i3blocks
+bindsym XF86MonBrightnessDown exec light -U 5
+bindsym XF86MonBrightnessUp exec light -A 5
 
-bindsym XF86AudioRaiseVolume exec ponymix increase 5 && pkill -RTMIN+10 i3blocks
-bindsym XF86AudioLowerVolume exec ponymix decrease 5 && pkill -RTMIN+10 i3blocks
-bindsym XF86AudioMute exec ponymix toggle && pkill -RTMIN+10 i3blocks
+bindsym XF86AudioRaiseVolume exec ponymix increase 5
+bindsym XF86AudioLowerVolume exec ponymix decrease 5
+bindsym XF86AudioMute exec ponymix toggle
 
 # Media player controls
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -181,6 +181,9 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym Print --release exec "rofi-screen -area"
 bindsym Shift+Print --release exec "rofi-screen -full"
 bindsym $mod+Print exec "rofi-screen"
+
+
+bindsym $mod+l exec "betterlockscreen -l"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -227,7 +230,7 @@ set $transparent #00000000
 #				BORDER		BACKGROUND	TEXT		INDICATOR	CHILD_$
 client.focused			$darkblue	$black		$white		$darkblue	$darkblue
 client.unfocused		$black		$black		#828282		$black		$black
-client.focused_inactive	        $black		$black		$black		$black		$black
+client.focused_inactive	        $black		$black		$darkwhite	$black		$black
 client.urgent			$darkred	$darkred	$black		$darkred	$darkred
 client.background		$black
 
@@ -247,9 +250,9 @@ bar {
                 background		$transparent
                 separator		$darkwhite
 		#			BORDER		BACKGROUND	TEXT
-                focused_workspace	$transparent	$transparent	$darkwhite
+                focused_workspace	$darkblue	$darkblue	$white
                 inactive_workspace	$transparent	$transparent	$white
-                active_workspace	$transparent	$transparent	$white
+                active_workspace	$darkblue	$transparent	$white
                 urgent_workspace	$darkred	$darkred	$white
                 binding_mode		$darkred	$darkred	$transparent
         }
