@@ -1,0 +1,9 @@
+[user]
+	email = thomas.lupin@epita.fr
+	name = Thomas Lupin
+
+[commit]
+        verbose = true
+
+[pull]
+    rebase = true
