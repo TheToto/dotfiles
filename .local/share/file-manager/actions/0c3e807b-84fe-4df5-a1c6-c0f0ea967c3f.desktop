@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Action
+Icon[fr_FR]=user-trash
+Icon[fr]=user-trash
+Tooltip[fr_FR]=`rm -rf` as root
+Tooltip[fr]=`rm -rf` as root
+ToolbarLabel[fr_FR]=[root] rm -rf
+ToolbarLabel[fr]=[root] rm -rf
+Name[fr_FR]=[root] rm -rf
+Name[fr]=[root] rm -rf
+Profiles=profile-zero;
+
+[X-Action-Profile profile-zero]
+Exec=sh -c "confirm-rofi 'Delete?' '%F' && sudo -A rm -rf %F"
+Name[fr_FR]=Profil par défaut
+Name[fr]=Profil par défaut

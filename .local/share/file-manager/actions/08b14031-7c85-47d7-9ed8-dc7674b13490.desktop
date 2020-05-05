@@ -1,0 +1,19 @@
+[Desktop Entry]
+Type=Action
+Icon[fr_FR]=system-file-manager
+Icon[fr]=system-file-manager
+Tooltip[fr_FR]=Extract to folder
+Tooltip[fr]=Extract to folder
+ToolbarLabel[fr_FR]=Extract to folder
+ToolbarLabel[fr]=Extract to folder
+Name[fr_FR]=Extract to folder
+Name[fr]=Extract to folder
+Profiles=profile-zero;
+TargetLocation=true
+
+[X-Action-Profile profile-zero]
+Folders=*;
+Exec=xarchiver -d %f
+Name[fr_FR]=Profil par défaut
+Name[fr]=Profil par défaut
+MimeTypes=application/*;

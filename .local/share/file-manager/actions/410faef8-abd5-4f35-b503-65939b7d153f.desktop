@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Menu
+Tooltip[fr_FR]=Actions as root
+Tooltip[fr]=Actions as root
+Name[fr_FR]=ROOT
+Name[fr]=ROOT
+ItemsList=0c3e807b-84fe-4df5-a1c6-c0f0ea967c3f;
+Icon[fr_FR]=stock_dialog-error
+Icon[fr]=stock_dialog-error
