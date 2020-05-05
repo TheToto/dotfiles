@@ -1,0 +1,29 @@
+#!/bin/python
+
+import os
+from rofi import Rofi
+
+r = Rofi()
+options = [
+    ' Locker',
+    ' Quitter i3',
+    ' Reboot',
+    ' Eteindre',
+    '鈴 Mettre en veille',
+    '⏾ Hiberner'
+]
+commands = [
+    'betterlockscreen -l dim',
+    'i3-msg exit',
+    'systemctl reboot',
+    'systemctl poweroff',
+    'systemctl suspend',
+    'systemctl hibernate'
+]
+
+index, key = r.select('Power menu ', options, rofi_args=['-u', '2,3'])
+
+print(index, key)
+if (key == -1):
+    os._exit(1)
+os.system(commands[index])

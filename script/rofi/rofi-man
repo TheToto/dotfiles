@@ -1,0 +1,14 @@
+#!/bin/python
+
+import os
+import subprocess
+
+process = subprocess.Popen("apropos . | rofi -dmenu", shell=True, stdout=subprocess.PIPE)
+out, err = process.communicate()
+errcode = process.returncode
+if errcode != 0:
+    os._exit(1)
+
+out = out.decode("utf-8") 
+man = out.split(' ')[0]
+os.system(f"termite --class floating --title '{man}' -e 'man {man}'")

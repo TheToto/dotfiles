@@ -1,0 +1,83 @@
+#!/bin/python
+
+import os
+import sys
+from rofi import Rofi
+
+def send_notif(text):
+    os.system('notify-send Screenshot "{}"'.format(text))
+
+def launch_screencast(command):
+    import subprocess
+    import signal
+    import datetime
+    os.system('mkdir -p /home/toto/Movies/Screencasts')
+    command += f" -o '/home/toto/Movies/Screencasts/{datetime.datetime.now()}.ogv'"
+    process = subprocess.Popen(["bash", "-c", command])
+    os.system('dunstify -u critical -r 456 -b "Screencast en cours" "Cliquez ici pour stopper"')
+    process.send_signal(signal.SIGINT)
+    os.system('dunstify -u critical -r 456 "Screencast terminé" "Patientez pendant l\'encodage."')
+    process.wait()
+    os.system('dunstify -u normal -r 456 "Screencast encodé" "C\'est fini !"')
+
+r = Rofi()
+options = [
+    ' Screenshot rectangle',
+    ' Screenshot fullscreen',
+    '---',
+    '祝 Upload dernier screenshot',
+    '---',
+    '壘 Screencast sans son',
+    '奔 Screencast avec son'
+]
+commands = [
+    'maim -s /tmp/screen.png',
+    'maim /tmp/screen.png',
+    '',
+    '',
+    '',
+    'recordmydesktop --no-sound --fps 25',
+    'recordmydesktop --fps 25'
+]
+index = -1
+key = 0
+
+if '-upload' in sys.argv:
+    key = 1
+
+if '-area' in sys.argv:
+    index = 0
+elif '-full' in sys.argv:
+    index = 1
+else:
+    index, key = r.select('Screenshots ', options, key1=('Alt+u', "祝 Upload"), rofi_args=['-a', '3'])
+
+if index >= 5:
+    launch_screencast(commands[index])
+    os._exit(0)
+
+if key == -1 or index == -1 or options[index] == "---":
+    os._exit(1)
+
+if os.system(commands[index]) != 0:
+    os._exit(1)
+
+if key == 1 or index == 3:
+    import requests
+    files = {'upload': open('/tmp/screen.png', 'rb')}
+    r = requests.post('https://pic.thetoto.fr/upload.php', files=files)
+    res = r.json()
+    if 'error' in res:
+        r.error(res['error'])
+        os._exit(1)
+
+    os.system("echo -n {} | xclip -selection clipboard".format(res['url']))
+    send_notif("Lien dans le presse papier.")
+
+    import datetime
+    f = open("/home/toto/Pictures/screenshot_history.txt", "a+")
+    f.write("date:\t\t{}\nurl:\t\t{}\ndeletehash:\t{}\n\n".format(datetime.datetime.now(), res['url'], res['deletehash']))
+    f.close()
+elif key == 0:
+    os.system("xclip -selection clipboard -t image/png -i /tmp/screen.png")
+    send_notif("enregistré dans le presse papier.")

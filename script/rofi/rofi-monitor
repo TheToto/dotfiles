@@ -1,0 +1,70 @@
+#!/bin/python
+
+import os
+import subprocess
+from rofi import Rofi
+from enum import Enum
+
+class ScreenState(Enum):
+    ENABLED = 0
+    PRIMARY = 1
+    DISABLED = 2
+
+class ScreenPosition(Enum):
+    UP_LEFT = 0
+    UP_RIGHT = 1
+    DOWN_LEFT = 2
+    DOWN_RIGHT = 3
+
+output = [l for l in subprocess.check_output(["xrandr"], shell=False).decode("utf-8").splitlines()]
+active_screens = [l.split()[0] for l in output if " connected " in l]
+unactive_screens = [l.split()[0] for l in output if " disconnected " in l]
+
+r = Rofi()
+
+options = [
+    "",
+    "",
+    "",
+    "",
+    "",
+    f"Active screens : {' '.join(active_screens)}",
+    f"Unactive screens : {' '.join(unactive_screens)}"
+]
+
+screens = {}
+
+for screen in active_screens:
+    index, key = r.select(f"Position for {screen}", options, 
+                          key1=("Alt+a", "Primary"), key2=("Alt+d", "Disabled"))
+    if key == -1 or index > 3:
+        os._exit(1)
+    screens[screen] = (ScreenState(int(key)), ScreenPosition(int(index)))
+for screen in unactive_screens:
+    screens[screen] = (ScreenState.DISABLED, ScreenPosition.UP_LEFT)
+
+print(screens)
+
+cmd = ["xrandr"]
+for screen in screens:
+    state, pos = screens[screen]
+    cmd += ["--output", screen]
+    if state is ScreenState.DISABLED:
+        cmd += ["--off"]
+        continue
+    elif state is ScreenState.PRIMARY:
+        cmd += ["--primary"]
+    cmd += ["--rotate", "normal"] # TODO
+    cmd += ["--mode", "1920x1080"] # TODO
+    cmd += ["--pos"]
+    if pos is ScreenPosition.UP_LEFT:
+        cmd += ["0x0"]
+    elif pos is ScreenPosition.UP_RIGHT:
+        cmd += ["1920x0"]
+    elif pos is ScreenPosition.DOWN_LEFT:
+        cmd += ["0x1080"]
+    elif pos is ScreenPosition.DOWN_RIGHT:
+        cmd += ["1920x1080"]
+
+print(" ".join(cmd))
+subprocess.run(cmd, shell=False)

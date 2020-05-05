@@ -1,0 +1,18 @@
+#!/bin/python
+
+import os
+import subprocess
+from rofi import Rofi
+
+r = Rofi()
+
+options = subprocess.check_output(["mpc", "lsplaylist"]).decode("utf-8").splitlines()
+
+index, key = r.select('mpd: ', options)
+
+if (key == -1):
+    os._exit(1)
+
+subprocess.check_call(["mpc", "clear"])
+subprocess.check_call(["mpc", "load", options[index]])
+subprocess.check_call(["mpc", "play"])

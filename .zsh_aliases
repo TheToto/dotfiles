@@ -1,0 +1,87 @@
+function dockerbash() {
+    docker run -v /home/toto/:/user/ -ti $1 /bin/bash
+}
+alias dockerup="sudo systemctl start docker"
+
+alias rm="rm -v"
+
+alias ll="ls -l --color=yes"
+alias lss="ls -a --color=yes"
+alias lls="ls -a -l --color=yes"
+alias ls="ls --color=yes"
+alias diff='diff --color=auto'
+# GIT
+alias push="git push"
+alias pull="git pull"
+alias commit="git commit"
+alias gstatus="git status"
+alias add="git add"
+alias greset="git reset"
+
+alias p="pacui"
+alias mirror="sudo reflector --verbose --score 100 --fastest 10 --save /etc/pacman.d/mirrorlist"
+
+# CONFIG
+alias zshrc="vim ~/.zshrc"
+alias i3conf="vim ~/.config/i3/config"
+
+# CD
+alias fuckoff="shutdown now"
+
+#DEV
+alias valgrind-leak="valgrind --leak-check=full --show-leak-kinds=all"
+alias gcc="gcc -Wextra -Wall -pedantic -std=c99"
+alias g++="g++ -Wextra -Wall -pedantic -std=c++17"
+
+alias dc="docker-compose"
+
+#SOFT
+alias pdf="qpdfview"
+alias img="nomacs"
+alias doc="libreoffice"
+alias hex="wxHexEditor"
+alias open="xdg-open"
+
+alias cat="bat -p"
+
+alias pick="colorpicker --one-shot --short | xclip -selection clipboard"
+
+alias randomwall="feh --randomize --bg-fill ~/Images/back/* --randomize --bg-fill ~/Images/back/*"
+
+alias youtube2mp3="youtube-dl -t -x --audio-format mp3 --audio-quality 0"
+alias youtube2mp4="youtube-dl -t -f mp4"
+
+alias nvminit="source /usr/share/nvm/init-nvm.sh"
+
+function mimeoadd {
+    if [ $# -ne 2 ]; then
+        echo "Usage : mimeoadd <app> <file>"
+        return
+    fi
+    app=`mimeo --app2desk "$1" | tail -n 1 | xargs`
+    mime=`mimeo -m "$2" | tail -n 1 | xargs`
+    printf "associate \e[91m$app\e[0m with \e[91m$mime\e[0m ? (y/N) "
+    read rep
+    [ "$rep" != "y" ] && return
+    mimeo --add "$mime" "$app"
+    echo done
+}
+
+function showalias() {
+    alias $1
+    declare -f $1
+}
+
+function launch() {
+    i3-msg exec "$*"
+}
+compdef _exec launch
+
+alias .zshrc=". ~/.zshrc"
+
+#DEV
+alias venv="python -m venv"
+function upenv { source "$1"/bin/activate }
+
+alias vpn_local_ip="sudo ip route add 192.168.1.0/24 via 10.8.0.1 dev tun0; sudo ip route add 192.168.1.1 via 10.8.0.1 dev tun0"
+alias dotgit="git --git-dir=$HOME/.cfg/ --work-tree=$HOME"

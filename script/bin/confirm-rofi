@@ -1,0 +1,7 @@
+#!/bin/sh
+
+res=$(printf "Cancel\nConfirm"| rofi -dmenu -p "$1" -mesg "$2" -u 1)
+if [ "$res" == "Confirm" ]; then
+    exit 0
+fi
+exit 1

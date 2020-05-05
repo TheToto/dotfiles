@@ -1,0 +1,9 @@
+.vscode/
+
+env/
+
+*.iml
+.idea/
+
+__pycache__/
+*.egg-info/

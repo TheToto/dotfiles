@@ -1,0 +1,33 @@
+#!/bin/python
+
+import os
+from rofi import Rofi
+
+r = Rofi()
+options = [
+    'Rofi drun',
+    'Greenclip (presse papier)',
+    'Connections WIFI',
+    'Bitwarden',
+    'Emojis'
+]
+commands = [
+    'rofi -show drun',
+    'rofi -modi "clipboard:greenclip print" -show clipboard',
+    'networkmanager_dmenu',
+    'bwmenu',
+    'rofimoji'
+]
+
+more_rofi = os.listdir("/home/toto/script/rofi")
+more_rofi.remove('.vscode')
+
+options += more_rofi
+commands += more_rofi
+
+index, key = r.select('Choisir un rofi ', options)
+
+print(index, key)
+if (key == -1):
+    os._exit(1)
+os.system(commands[index])
