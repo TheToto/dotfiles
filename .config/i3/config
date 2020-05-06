@@ -225,12 +225,14 @@ set $darkwhite #a3a3a3
 set $white #eeffff
 set $transparent #00000000
 
+set $arcgrey #383c4a
+set $arcblack #2f343f
 
 # window colors
 #				BORDER		BACKGROUND	TEXT		INDICATOR	CHILD_$
-client.focused			$darkblue	$black		$white		$darkblue	$darkblue
-client.unfocused		$black		$black		#828282		$black		$black
-client.focused_inactive	        $black		$black		$darkwhite	$black		$black
+client.focused			$darkblue	$darkblue	$white		$darkblue	$darkblue
+client.unfocused		$arcblack	$arcblack	#828282		$black		$black
+client.focused_inactive	        $arcblack	$arcblack	$darkwhite	$black		$black
 client.urgent			$darkred	$darkred	$black		$darkred	$darkred
 client.background		$black
 
